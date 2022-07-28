@@ -1,15 +1,14 @@
 from aiogram import types
 from data import config
 from loader import dp
-from utils.work_with_db import SQLite
+from utils.db.work_with_database import SqlAlchemy
 
-db = SQLite()
+db = SqlAlchemy()
 
 
 @dp.message_handler(commands='start')
 async def start(message: types.Message):
-    if not db.subscriber_exists(message.from_user.id):
-        db.add_subscriber(message.from_user.id, str(message.from_user.username))
+    db.create_user(message.from_user.id, message.from_user.username)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     buttons = ['Кнопк1', 'Кнопка2', 'Кнопка3']
 
@@ -17,5 +16,5 @@ async def start(message: types.Message):
         buttons.append('Кнопка4')
         buttons.append('Кнопка5')
     markup.add(*buttons)
-    await message.answer(f"🤘 Салют, {message.chat.username}!\n",
-                         reply_markup=markup)
+
+    await message.answer(f"🤘 Салют, {message.chat.username}!\n", reply_markup=markup)

@@ -2,8 +2,12 @@ import configparser
 
 config = configparser.ConfigParser()
 config.read("settings.ini")
-BOT_TOKEN = config["settings"]["token"]
+token = config["settings"]["token"]
 admins = config["settings"]["admin_id"]
+user = config["database"]["user"]
+password = config["database"]["password"]
+host = config["database"]["host"]
+db = config["database"]["db"]
 
 if "," in admins:
     admins = admins.split(",")
