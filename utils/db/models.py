@@ -9,6 +9,7 @@ class User(Base):
 
     user_id = Column(BigInteger, primary_key=True, autoincrement=False, index=True)
     username = Column(String)
+    keywords = Column(String, default='')
     # premium = Column(Boolean, default=False)
     # status = Column(Boolean, default=False)
     # fav_posts = relationship('Post', back_populates='user')
