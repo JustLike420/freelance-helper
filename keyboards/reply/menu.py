@@ -11,6 +11,11 @@ def main_menu(user_id):
     if str(user_id) in admins:
         menu_default.row("поле меню админа 1", "поле меню админа 2")
         menu_default.row("поле меню админа 3", "поле меню админа 4", "поле меню админа 5")
+    menu_default = ReplyKeyboardMarkup(resize_keyboard=True)
+    menu_default.row('Ключевые слова', 'Поиск по ключевым словам', 'Избранные')
+    menu_default.row('О боте', 'Автор')
+    if str(user_id) in admins:
+        menu_default.row('Рассылка', 'Поиск профиля', 'Статистика')
     return menu_default
 
 
