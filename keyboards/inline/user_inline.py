@@ -2,7 +2,12 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 # static
-test_keyboard = InlineKeyboardMarkup()
-test1 = InlineKeyboardButton(text="test1", callback_data="test1")
-test2 = InlineKeyboardButton(text="test2", callback_data="test2")
-test_keyboard.add(test1, test2)
+keywords_button = InlineKeyboardMarkup()
+change = InlineKeyboardButton(text="Изменить", callback_data="change_keywords")
+clear = InlineKeyboardButton(text="Очистить", callback_data="clear_keywords")
+keywords_button.add(change, clear)
+
+sure_edit_keywords = InlineKeyboardMarkup()
+yes_edit_k = InlineKeyboardButton(text="✅ Изменить", callback_data="yes_edit_k")
+no_edit_k = InlineKeyboardButton(text="❌ Отменить", callback_data="no_edit_k")
+sure_edit_keywords.add(yes_edit_k, no_edit_k)
