@@ -69,18 +69,7 @@ async def favorite(message: types.Message):
 
 @dp.message_handler(text="Автор")
 async def author(message: types.Message):
-    await message.answer('Автор')
-
-
-# admin
-@dp.message_handler(text="Статистика")
-async def stats(message: types.Message):
-    """
-    Кол-во юзеров
-    Кол-во избранных
-    Кол-во за сегодня
-    """
-    await message.answer('Статистика')
-
+    await message.answer("Автор бота: <a href='https://t.me/Squishy666'>Vladimir</a>", parse_mode=types.ParseMode.HTML,
+                         disable_web_page_preview=True)
 
 
