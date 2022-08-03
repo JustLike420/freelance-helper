@@ -8,6 +8,8 @@ user = config["database"]["user"]
 password = config["database"]["password"]
 host = config["database"]["host"]
 db = config["database"]["db"]
+kwork_user = config["kwork"]["username"]
+kwork_password = config["kwork"]["password"]
 
 if "," in admins:
     admins = admins.split(",")
