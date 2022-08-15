@@ -1,17 +1,19 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
-
+from data import config
 from keyboards import keywords_button, all_back_to_main_default, main_menu, sure_edit_keywords
 from loader import dp
 from utils.db.work_with_database import SqlAlchemy
+from utils.kwork_func import Kwork
 
 db = SqlAlchemy()
+kwork = Kwork(login=config.kwork_user, password=config.kwork_password)
 
 
 @dp.message_handler(text="О боте")
 async def about(message: types.Message):
     await message.answer("Это бот служит для отслеживания и отправки новых проектов "
-                         "с различшных фриланс бирж по ключевым словам.")
+                         "с различных фриланс бирж по ключевым словам.")
 
 
 @dp.message_handler(text="Ключевые слова")
@@ -59,8 +61,13 @@ async def clear_keywoards(call: types.CallbackQuery):
 
 @dp.message_handler(text="Поиск по ключевым словам")
 async def keywords_search(message: types.Message):
-    await message.answer("Поиск по ключевым словам")
-
+    await message.answer("Поиск по ключевым словам.")
+    user_keywords = db.get_keywords(message.from_user.id)
+    answer = await kwork.keywords_search(user_keywords)
+    if answer:
+        await message.answer(str(len(answer)))
+    else:
+        await message.answer('error')
 
 @dp.message_handler(text="Избранные")
 async def favorite(message: types.Message):
@@ -71,5 +78,3 @@ async def favorite(message: types.Message):
 async def author(message: types.Message):
     await message.answer("Автор бота: <a href='https://t.me/Squishy666'>Vladimir</a>", parse_mode=types.ParseMode.HTML,
                          disable_web_page_preview=True)
-
-

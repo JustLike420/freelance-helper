@@ -19,13 +19,40 @@ class Kwork:
                 'password': self.password,
             }) as response:
                 token = await response.json()
-                await self.session.close()
                 return token["response"]["token"]
-    @property
-    async def token(self):
-        if self._token is None:
-            self._token = await self.get_token()
-        return self._token
+
+    # @property
+    # async def token(self):
+    #     if self._token is None:
+    #         self._token = await self.get_token()
+    #     return self._token
+
+    async def keywords_search(self, keywords):
+        async with self.session.post(url=self.api_url + 'projects',
+                                     data={
+                                         'query': keywords,
+                                         'token': self._token,
+                                     }) as response:
+            answer = await response.json()
+            if answer['success']:
+
+                pages = answer['paging']['pages']
+                posts = []
+                for page in range(1, pages + 1):
+                    async with self.session.post(url=self.api_url + 'projects',
+                                                 data={
+                                                     'query': keywords,
+                                                     'token': self._token,
+                                                     'page': page
+                                                 }) as page_response:
+                        page_answer = await page_response.json()
+                        if page_answer['success']:
+                            posts.extend(page_answer['response'])
+                return posts
+            else:
+                return False
+
+# kwo = Kwork(login=config.kwork_user, password=config.kwork_password)
 
 
 kwo = Kwork(login=config.kwork_user, password=config.kwork_password)
